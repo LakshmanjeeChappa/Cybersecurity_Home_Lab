@@ -1,16 +1,21 @@
 Chapter 2 – Linux Security Basics
 Overview
 
-In this lab, I performed core Linux system administration and security tasks using an Ubuntu Virtual Machine. The objective was to understand system updates, privilege management, user and group administration, file permissions, and Access Control Lists (ACLs). All commands were executed through the terminal.
+In this lab, I worked inside my Ubuntu Virtual Machine and performed system updates, user management, group management, file permission changes, and Access Control List (ACL) configuration. All tasks were completed using the terminal. This lab helped me understand how Linux controls system access and security.
 
 1. Retrieve Available Updates
 Command
 sudo apt update
+
 Explanation
 
-The apt update command refreshes the local package index by retrieving the latest metadata from configured repositories listed in /etc/apt/sources.list. This command does not install updates; it only checks for available newer versions of installed packages.
+TWhat Happened (Based on My Output)
 
-Running this command ensures the system is aware of available security patches and software updates.
+When I ran this command, the system connected to Ubuntu repositories like archive.ubuntu.com and security.ubuntu.com. It downloaded package lists and then showed that several packages could be upgraded.
+
+This command did not install updates. It only refreshed the system’s package database so Ubuntu knows which updates are available.
+
+This is important because outdated packages may contain security vulnerabilities..
 
 
 
@@ -18,14 +23,17 @@ Running this command ensures the system is aware of available security patches a
 Command
 sudo apt upgrade
 Explanation
-
-The apt upgrade command installs the newer versions of packages identified during apt update. This applies security patches and feature updates.
-
-Upgrading the system reduces exposure to known vulnerabilities and ensures the operating system is running patched software.
+The system showed that 334 packages were going to be upgraded. It downloaded and installed the updates. During the process, I noticed it generated a new kernel image:
 
 Screenshot
+
 ![alt text](image.png)
 ![alt text](image-1.png)
+
+This means the Linux kernel itself was updated.
+
+Upgrading is important because it installs security patches and fixes bugs. If the kernel is updated, a reboot is required.
+
 3. Reboot the System
 Command
 sudo reboot
@@ -38,63 +46,92 @@ Explanation
 After upgrading, a reboot was required because the Linux kernel was updated. The uname -r command confirms the currently running kernel version. Rebooting ensures that the new kernel is loaded into memory.
 
 Screenshot
+
 ![alt text](image-2.png)
+
 4. Switch to Root User
 Command
 sudo su root
 Explanation
 
-This command switches the current user to root. The prompt changes from $ to #, indicating administrative privileges. The root user has unrestricted access to system files and configurations.
+The $ changed to #, which shows that I now had root privileges. Root has full control over the system
 
 Screenshot
+
 ![alt text](image-3.png)
+
 5. Create Users Using useradd and adduser
 Commands
 useradd bobby
 adduser sally
+
 ![alt text](image-4.png)
 
 ![alt text](image-5.png)
+
 Explanation
 
-useradd is a low-level command that creates a user account without creating a home directory or setting a password by default.
+When I used useradd bobby, it created the user entry in /etc/passwd, but it did NOT create a home directory. When I checked /home, I only saw:
 
-adduser is a higher-level interactive tool that:
+lakshman
 
-Creates a home directory
+After using adduser sally, the system:
 
-Sets a password
+Created a home directory /home/sally
 
-Copies default configuration files from /etc/skel
+Asked for a password
 
-Creates a matching group
+Copied default files
 
-This demonstrates the difference between basic account creation and fully configured user setup.
+Created a group named sally
+
+When I checked /home, I saw:
+
+lakshman  sally
+
+This showed that adduser is more complete and interactive compared to useradd.
 
 6. Switch to Sally
 Command
 su - sally
+
 ![alt text](image-6.png)
+
 Explanation
 
-This command switches the session to user sally and loads her login environment. The prompt changes to $, indicating standard user privileges.
+The prompt changed to:
+
+sally@lakshman-virtual-machine:~$
+
+This showed that I was now logged in as Sally and had normal user permissions.
 
 7. Attempt to Create a User as Sally
 Command
 useradd earl
+
 ![alt text](image-7.png)
+
 Result
 
 Permission denied.
 
 Explanation
 
-Creating a user requires modification of /etc/passwd and /etc/shadow, which are restricted system files. Sally does not have administrative privileges, so Linux denied access. This demonstrates privilege enforcement and the principle of least privilege.
+The system returned:
+
+Permission denied.
+cannot lock /etc/passwd
+
+This happened because Sally is not an administrator. Creating users requires modifying /etc/passwd, which only root can access.
+
+This demonstrates the principle of least privilege.
 
 8. Delete User Bobby
 Command
 sudo userdel bobby
+
 ![alt text](image-8.png)
+
 Explanation
 
 This removed the bobby user from the system account database.
@@ -102,30 +139,36 @@ This removed the bobby user from the system account database.
 9. Change Sally’s Password
 Command
 sudo passwd sally
+
 ![alt text](image-9.png)
+
 Explanation
 
-This command updated Sally’s password hash in /etc/shadow. Only root or sudo users can modify passwords for other users.
+The system showed:
+
+passwd: password updated successfully
+
+This updated Sally’s password in /etc/shadow.
 
 10. Why It Is Bad Practice to Stay Logged in as Root
 
-Remaining logged in as root increases security risk. Root has unrestricted control over system files, users, and services. Accidental mistakes can damage the operating system. Additionally, if malicious software runs while logged in as root, it gains full system access. Using sudo for temporary privilege escalation follows the principle of least privilege and improves system security.
+It is not safe to stay logged in as root because root can change or delete any system file. If a mistake is made, it can damage the operating system. Also, if malware runs while logged in as root, it gets full control of the system. It is safer to use a normal account and only use sudo when needed.
 
 11. View User ID
 Command
 id
+
 ![alt text](image-10.png)
+
 Explanation
 
-The id command displays:
+The output showed:
 
-UID (User ID)
+uid=1000(lakshman)
+gid=1000(lakshman)
+groups=1000(lakshman),27(sudo),...
 
-GID (Group ID)
-
-Group memberships
-
-Root always has UID 0. Regular users typically start at UID 1000.
+This means my user ID is 1000 and I belong to multiple groups including the sudo group.
 
 12–16. Group Management
 View Groups
@@ -135,6 +178,7 @@ Create New Group
 sudo groupadd cybersec
 Add Sally to Group
 sudo usermod -aG cybersec sally
+
 ![alt text](image-11.png)
 
 ![alt text](image-12.png)
@@ -146,6 +190,7 @@ sudo usermod -aG cybersec sally
 ![alt text](image-15.png)
 
 ![alt text](image-16.png)
+
 Explanation
 
 Groups allow role-based access control. Adding a user to a group grants access permissions assigned to that group. The -aG option appends the group without removing existing memberships.
@@ -154,7 +199,9 @@ Groups allow role-based access control. Adding a user to a group grants access p
 Command
 mkdir lab1
 ls -ld lab1
+
 ![alt text](image-17.png)
+
 Output Example
 drwxrwxr-x
 Explanation
@@ -186,6 +233,7 @@ chmod +x helloWorld
 ./helloWorld
 
 ![alt text](image-18.png)
+
 Explanation
 
 The shebang (#!/bin/bash) tells the system which interpreter to use. chmod +x adds execute permission, allowing the file to run as a program.
@@ -195,7 +243,9 @@ Command
 ls -l helloWorld
 Example Output
 -rwxrwxr-x
+
 ![alt text](image-19.png)
+
 This shows:
 
 Owner: full permissions
@@ -207,15 +257,21 @@ Others: read and execute
 20. View Access Control List (ACL)
 Command
 getfacl helloWorld
+
 ![alt text](image-20.png)
+
 Explanation
 
-ACLs provide more granular permission control beyond standard UNIX permission bits. They allow specific users or groups to be granted customized access.
+This means the file was using standard permissions only.
 
 21. Modify ACL
 Command
 setfacl -m u:sally:rw helloWorld
+
 ![alt text](image-21.png)
+
 Explanation
 
 This grants user sally read and write access to the file, even if she is not the owner. The mask field limits the maximum effective permissions for named users and groups.
+
+
