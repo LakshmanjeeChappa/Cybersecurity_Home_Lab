@@ -10,6 +10,6 @@ This repository will continue to grow as I complete more labs related to system 
 
 **Table of contents**
 
-[Assignment 2 – Linux_Basics](./Linux_Basics_readme.md)
+ ==> [Assignment 2 – Linux_Basics](./Linux_Basics_readme.md)
 
 
