@@ -11,6 +11,8 @@ unset MYVAR
 printenv MYVAR
 
 
+<img width="883" height="321" alt="1 " src="https://github.com/user-attachments/assets/78a9bdc4-5f6b-45b4-a554-0754282ab015" />
+
 
 What i did :
 
@@ -41,6 +43,10 @@ gcc myprintenv.c -o myprintenv
 ./myprintenv > child_output.txt
 ./myprintenv > parent_output.txt
 diff child_output.txt parent_output.txt
+
+
+<img width="883" height="172" alt="2" src="https://github.com/user-attachments/assets/1174aa7d-8eba-4e5c-92a8-b6de4ad7e9a8" />
+
 
  What I Did :
 
@@ -76,6 +82,13 @@ gcc myenv.c -o myenv
 gcc myenv.c -o myenv
 ./myenv
 
+
+<img width="887" height="716" alt="3" src="https://github.com/user-attachments/assets/96304da5-adf8-43e8-91eb-f185c5209044" />
+
+<img width="887" height="686" alt="3 1" src="https://github.com/user-attachments/assets/66a854fb-5168-41bf-8daa-49a6ffa5a06c" />
+
+
+
  What I Did:
 
 
@@ -107,6 +120,13 @@ gcc sysenv.c -o sysenv
 ./sysenv
 
  What I Did:
+ 
+
+ <img width="885" height="880" alt="4" src="https://github.com/user-attachments/assets/ddedc81f-2178-48ca-b46f-b00663c15c41" />
+
+<img width="886" height="810" alt="4 1" src="https://github.com/user-attachments/assets/084f17f7-aa4a-4380-bd7b-c773743146fa" />
+
+
 
 I created a program that uses the system() function to execute the command /usr/bin/env. Then I compiled and ran the program to observe how environment variables behave when using system().
 
@@ -137,6 +157,13 @@ export LD_LIBRARY_PATH=test
 export MYVAR=hello123
 
 ./foo
+
+
+
+<img width="887" height="807" alt="5" src="https://github.com/user-attachments/assets/96f8c70a-271f-4cfc-a5ec-d3b002321ccb" />
+
+<img width="882" height="546" alt="5 1" src="https://github.com/user-attachments/assets/aefc2494-c1d3-4bd1-ba2d-a7e8a2500fd3" />
+
 
  What I Did:
 
@@ -188,6 +215,11 @@ export PATH=.:$PATH
 sudo ln -sf /bin/zsh /bin/sh
 ./path_attack
 
+
+<img width="886" height="247" alt="6" src="https://github.com/user-attachments/assets/fa2f0c30-b48a-40b3-a932-402b305033b7" />
+
+
+
 What I Did:
 
 I created a program that uses system("ls") and made it a SetUID root program.
@@ -235,6 +267,10 @@ sudo chmod 4755 myprog
 
 ./myprog
 
+
+<img width="886" height="203" alt="7" src="https://github.com/user-attachments/assets/3ba1b9d6-224a-4447-b5f8-b1296e671255" />
+
+
  What I Did:
 
 I created a shared library that overrides the sleep() function. Then I compiled it as a dynamic library.
@@ -280,6 +316,10 @@ sudo chown root catall
 sudo chmod 4755 catall
 
 ./catall "/etc/hostname; whoami"
+
+
+<img width="886" height="152" alt="8" src="https://github.com/user-attachments/assets/461bcd36-94fc-406f-8e73-c8351b637014" />
+
 
  What I Did:
 
@@ -334,6 +374,10 @@ sudo touch /etc/zzz
 sudo chmod 644 /etc/zzz
 
 ./cap_leak
+
+
+<img width="885" height="116" alt="9" src="https://github.com/user-attachments/assets/3152d879-9b53-47dd-b3c6-95dff9c2af24" />
+
 
 What I Did:
 
