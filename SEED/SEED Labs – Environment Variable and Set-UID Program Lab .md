@@ -1,4 +1,4 @@
-Task 1: Manipulating Environment Variables
+**Task 1: Manipulating Environment Variables**
 
 Commands Used:
 
@@ -35,7 +35,7 @@ After using export MYVAR=hello, the variable appeared
 After using unset MYVAR, the variable disappeared
 
 
-Task 2: Environment Variables and fork()
+**Task 2: Environment Variables and fork()**
 
  Commands Used :
 
@@ -70,7 +70,7 @@ Since no changes were made after the fork, both processes had the same environme
 
 
 
-Task 3: Environment Variables and execve()
+**Task 3: Environment Variables and execve()**
 
  Commands Used:
 
@@ -113,7 +113,7 @@ When environ is passed, it explicitly provides the current process’s environme
 This shows that environment variables must be manually passed when using execve().
 
 
-Task 4: Environment Variables and system()
+**Task 4: Environment Variables and system()**
  Commands Used:
 
 gcc sysenv.c -o sysenv
@@ -144,7 +144,7 @@ Because of this, when /usr/bin/env is executed using system(), it has access to 
 This behavior is different from execve(), where environment variables must be manually passed.
 
 
-Task 5: Environment Variables and Set-UID Programs
+**Task 5: Environment Variables and Set-UID Programs**
 
  Commands Used:
 
@@ -195,7 +195,7 @@ However, variables like PATH are still preserved, which can be risky because att
 
 
 
-Task 6: The PATH Environment Variable and Set-UID Programs
+**Task 6: The PATH Environment Variable and Set-UID Programs**
 
  Commands Used:
 
@@ -250,7 +250,7 @@ As a result, the malicious code was executed, but it ran with normal user privil
 
 
 
-Task 7: The LD_PRELOAD Environment Variable and Set-UID Programs
+**Task 7: The LD_PRELOAD Environment Variable and Set-UID Programs**
 
 Commands Used:
 
@@ -298,7 +298,7 @@ Because of this protection, the custom library was ignored when the program was 
 
 
 
-Task 8: Invoking External Programs Using system() vs execve()
+**Task 8: Invoking External Programs Using system() vs execve()**
 
 Commands Used:
 
@@ -362,7 +362,7 @@ Because of this, the attack failed when using execve(), making it a safer option
 
 
 
-Task 9: Capability Leaking
+**Task 9: Capability Leaking**
 
  Commands Used:
 
